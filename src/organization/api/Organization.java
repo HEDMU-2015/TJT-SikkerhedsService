@@ -33,7 +33,7 @@ public interface Organization {
 	 * @param id
 	 * @return List of id's of (all) children
 	 */
-	public List<Long> getAllChildren(long id);
+	public List<Long> getChildrenIds(long id);
 	
 	/**
 	 * Get all OrganizationUnit's witout parents (Top-level)
