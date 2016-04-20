@@ -6,9 +6,9 @@ import java.util.Base64;
 
 public class User {
 	
-	private String id;
+	private long id;
 	private String encryptedPassword;
-	private String email;
+	private String username;
 	
 	public static String encrypt(String txt) throws NoSuchAlgorithmException {
 		MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -16,11 +16,11 @@ public class User {
 		return Base64.getEncoder().encodeToString(mdbytes);
 	}
 
-	public String getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -36,17 +36,17 @@ public class User {
 		this.encryptedPassword = encrypt(password);
 	}
 
-	public String getEmail() {
-		return email;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", encryptedPassword=" + encryptedPassword + ", email=" + email + "]";
+		return "User [id=" + id + ", encryptedPassword=" + encryptedPassword + ", username=" + username + "]";
 	}
 
 
