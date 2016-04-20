@@ -11,7 +11,7 @@ import security.domain.UserPermission;
 /**
  * Interface (API) for service Security
  * 
- * @author hi
+ * @author
  *
  */
 public interface Security {
@@ -23,14 +23,14 @@ public interface Security {
 	 * @param encryptedPassword
 	 * @return true if userid and password is correct
 	 */
-	public boolean login(String userId, String encryptedPassword);
+	public boolean login(long userId, String encryptedPassword);
 	
 	/**
 	 * 
 	 * @param userId
 	 * @return
 	 */
-	public User getUser(String userId);
+	public User getUser(long id);
 	
 	/**
 	 * 
@@ -38,14 +38,12 @@ public interface Security {
 	 */
 	public String getIdOfUserLoggedIn();
 	
-	public Permission getPermission(int permissionId);
+	public Permission getPermission(long permissionId);
 
 	public Permission getPermission(String permissionName);
 	
-	public List<UserPermission> getAllPermissionsForUser(String userId);
+	public List<UserPermission> getAllPermissionsForUser(long userId);
 
-	public OrganizationUnit getOrganizationUnitForUserPermission(String userId, int permissionId);
-	
-	public boolean hasUserAccessToOrganizationUnit(String userId, int permissionId, long organizationId);
+	public boolean hasUserAccessToOrganizationUnit(long id, long permissionId, long organizationId);
 	
 }
