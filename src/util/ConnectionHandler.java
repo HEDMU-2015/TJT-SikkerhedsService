@@ -21,7 +21,7 @@ public class ConnectionHandler {
 	public Connection getConnection() {
 		if (level == 0) {
 			try {
-				this.conn =	DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/mydatabase", "SA", "");
+				this.conn =	DriverManager.getConnection("jdbc:mysql://localhost:3306/rettigheder", "root", "root");
 				this.conn.setAutoCommit(false);
 			} catch (SQLException e) {
 				throw new RuntimeException("Connection could not be established", e);
