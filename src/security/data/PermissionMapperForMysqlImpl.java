@@ -3,6 +3,7 @@ package security.data;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import security.domain.Permission;
@@ -60,29 +61,35 @@ public class PermissionMapperForMysqlImpl implements PermissionMapper {
 
 	@Override
 	public List<UserPermission> getAllPermissionsForUser(DataAccess da, long id) {
-		String sql = "SELECT * FROM rettigheder r"
+		String sql = "SELECT r.*, br.brugerId, rr.organisationId FROM rettigheder r"
 				+ " INNER JOIN roller_rettigheder rr ON (r.id = rr.rettighedId) "
 				+ " INNER JOIN brugere_roller br ON (rr.rolleId = br.rolleId) "
 				+ " INNER JOIN brugere_rettigheder brettigheder ON (r.id = brettigheder.rettighedId) "
 				+ " WHERE br.brugerId = ?";
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		Permission permission = null;
+		
+		List<UserPermission> userPermissions = new ArrayList<UserPermission>();
+		UserPermission userPermission = new UserPermission();
 		try {
 			stmt = da.getConnection().prepareStatement(sql);
 			stmt.setLong(1, id);
 			rs = stmt.executeQuery();
-			permission = new Permission();
 			while(rs.next()) {
+				Permission permission = new Permission();
 				permission.setId(rs.getLong("id"));
 				permission.setName(rs.getString("navn"));
+				userPermission.setPermission(permission);
+				userPermission.setUserId(rs.getLong("brugerId"));
+				userPermission.setOrganisationId(rs.getLong("organisationId"));
+				userPermissions.add(userPermission);
 			}
 			stmt.close();
 			rs.close();
 		} catch (SQLException e) {
 			throw new RuntimeException("Failed.");
 		}
-		return permission;
+		return userPermissions;
 	}
 
 	

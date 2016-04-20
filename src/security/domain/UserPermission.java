@@ -4,14 +4,15 @@ import organization.domain.OrganizationUnit;
 
 public class UserPermission {
 	
-	private String userId;
+	private Long userId;
 	private Permission permission;
 	private OrganizationUnit organizationUnit;
+	private long organisationId;
 	
-	public String getUserId() {
+	public Long getUserId() {
 		return userId;
 	}
-	public void setUserId(String userId) {
+	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
 	public Permission getPermission() {
@@ -25,6 +26,13 @@ public class UserPermission {
 	}
 	public void setOrganizationUnit(OrganizationUnit organizationUnit) {
 		this.organizationUnit = organizationUnit;
+	}
+	
+	public long getOrganisationId() {
+		return organisationId;
+	}
+	public void setOrganisationId(long organisationId) {
+		this.organisationId = organisationId;
 	}
 	@Override
 	public String toString() {

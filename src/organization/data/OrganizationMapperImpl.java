@@ -9,48 +9,97 @@ import java.util.List;
 import organization.api.Organization;
 import organization.domain.OrganizationUnit;
 import organization.logic.OrganizationImpl;
+import util.DataAccess;
 
 public class OrganizationMapperImpl implements OrganizationMapper {
-	
-	
-	hhg
-
 	@Override
-	public List<OrganizationUnit> getAllOrganizationsWithoutParents(DataAcces dataAcces){
+	public List<OrganizationUnit> getAllOrganizationsWithoutParents(DataAccess dataAcces) {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		List<OrganizationUnit> organizationChildren = new ArrayList<OrganizationUnit>();
+		List<OrganizationUnit> organizationer = new ArrayList<OrganizationUnit>();
 		try {
-			stmt = dataAcces.getConnection().prepareStatement(??);
-			rs = statement.executeQuery();
-			while (rs.next()){
+			stmt = dataAcces.getConnection().prepareStatement("SELECT * FROM organisationer");
+			rs = stmt.executeQuery();
+			while (rs.next()) {
 				OrganizationUnit org = new OrganizationUnit();
-				org.setId(rs.getInt("id"));
-				org.setName(rs.getString("name"));
-				organizationChildren.add(org);
+				org.setId(rs.getLong("id"));
+				org.setName(rs.getString("navn"));
+				organizationer.add(org);
 			}
-			return organizationChildren;
-		} catch (SQLException exc){
-			
+			stmt.close();
+			rs.close();
+		} catch (SQLException exc) {
+			exc.printStackTrace();
+		}
+		return organizationer;
+
+	}
+
+	@Override
+	public OrganizationUnit fetchById(DataAccess dataAcces, long id) {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		OrganizationUnit ou = new OrganizationUnit();
+		try {
+			stmt = dataAcces.getConnection().prepareStatement("SELECT * FROM organisationer WHERE id = ?");
+			stmt.setLong(1, id);
+			rs = stmt.executeQuery();
+			if(rs.next()) {
+				ou.setId(rs.getLong("id"));
+				ou.setName(rs.getString("navn"));
+			}
+			stmt.close();
+			rs.close();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ou;
+	}
+
+	@Override
+	public List<Long> fetchChildrenIds(DataAccess dataAcces, long parentId) {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		List<Long> ids = new ArrayList<Long>();
+		try {
+			stmt = dataAcces.getConnection().prepareStatement("SELECT id FROM organisationer WHERE parent_id = ?");
+			stmt.setLong(1, parentId);
+			rs = stmt.executeQuery();
+			while(rs.next()){
+				ids.add(rs.getLong("id"));				
+			}
+			stmt.close();
+			rs.close();
+		}catch (SQLException exc) {
+			exc.printStackTrace();
+		}
+		return ids;
+	}
+
+	@Override
+	public List<OrganizationUnit> searchOrganization(DataAccess dataAcces, String search) {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		List<OrganizationUnit> result = new ArrayList<OrganizationUnit>();
+		try{
+			stmt = dataAcces.getConnection().prepareStatement("SELECT * FROM organisationer WHERE LOWER(navn) LIKE ?");
+			stmt.setString(1, "%" + search.toLowerCase() + "%");
+			rs = stmt.executeQuery();
+			while(rs.next()){
+				OrganizationUnit org = new OrganizationUnit();
+				org.setId(rs.getLong("id"));
+				org.setName(rs.getString("navn"));
+				result.add(org);
+			}
+			stmt.close();
+			rs.close();
+		}catch (SQLException exc) {
+			exc.printStackTrace();
 		}
 		
+		return result;
 	}
 
-	@Override
-	public OrganizationUnit fetchById(long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Long> fetchChildrenIds(long parentId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<OrganizationUnit> searchOrganization(String search) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }
