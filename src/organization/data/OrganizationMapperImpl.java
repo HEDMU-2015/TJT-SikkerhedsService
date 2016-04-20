@@ -18,10 +18,10 @@ public class OrganizationMapperImpl implements OrganizationMapper {
 		ResultSet rs = null;
 		List<OrganizationUnit> organizationChildren = new ArrayList<OrganizationUnit>();
 		try {
-			stmt = dataAcces.getConnection().prepareStatement(FETCH_ORGANISATIONS_NO_PARENT);
+			stmt = dataAcces.getConnection().prepareStatement(??);
 			rs = statement.executeQuery();
 			while (rs.next()){
-				OrganizationMapper org = new OrganizationMapperImpl();
+				OrganizationUnit org = new OrganizationUnit();
 				org.setId(rs.getInt("id"));
 				org.setName(rs.getString("name"));
 				organizationChildren.add(org);
