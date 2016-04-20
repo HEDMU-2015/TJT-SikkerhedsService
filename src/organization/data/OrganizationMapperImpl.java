@@ -11,6 +11,9 @@ import organization.domain.OrganizationUnit;
 import organization.logic.OrganizationImpl;
 
 public class OrganizationMapperImpl implements OrganizationMapper {
+	
+	
+	hhg
 
 	@Override
 	public List<OrganizationUnit> getAllOrganizationsWithoutParents(DataAcces dataAcces){
