@@ -1,11 +1,14 @@
 package security.data;
 
-import static org.junit.Assert.*; 
+import static org.junit.Assert.*;
+
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import security.domain.Permission;
+import security.domain.UserPermission;
 import util.DataAccess;
 
 public class PermissionMapperForMysqlTest {
@@ -35,7 +38,10 @@ public class PermissionMapperForMysqlTest {
 
 	@Test
 	public void testGetAllPermissionsForUser() {
-		fail("Not yet implemented");
+		DataAccess da = new DataAccess();
+		List<UserPermission> permissions = mapper.getAllPermissionsForUser(da, 1);
+		assertEquals(3, permissions.size());
+		da.close();
 	}
 
 }

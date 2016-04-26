@@ -64,7 +64,8 @@ public class PermissionMapperForMysqlImpl implements PermissionMapper {
 		String sql = "SELECT r.*, br.brugerId, rr.organisationId FROM rettigheder r"
 				+ " INNER JOIN roller_rettigheder rr ON (r.id = rr.rettighedId) "
 				+ " INNER JOIN brugere_roller br ON (rr.rolleId = br.rolleId) "
-				+ " INNER JOIN brugere_rettigheder brettigheder ON (r.id = brettigheder.rettighedId) "
+				+ " INNER JOIN brugere_rettigheder brettigheder "
+				+ " ON (r.id = brettigheder.rettighedId AND brettigheder.brugerId = br.brugerId) "
 				+ " WHERE br.brugerId = ?";
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -87,7 +88,8 @@ public class PermissionMapperForMysqlImpl implements PermissionMapper {
 			stmt.close();
 			rs.close();
 		} catch (SQLException e) {
-			throw new RuntimeException("Failed.");
+			e.printStackTrace();
+//			throw new RuntimeException("Failed.");
 		}
 		return userPermissions;
 	}

@@ -36,8 +36,8 @@ public class UserPermission {
 	}
 	@Override
 	public String toString() {
-		return "UserPermission [userId=" + userId + ", permission=" + permission + ", organizationUnit=" + organizationUnit
-				+ "]";
+		return "UserPermission [userId=" + userId + ", permission=" + permission + ", organizationUnit="
+				+ organizationUnit + ", organisationId=" + organisationId + "]";
 	}
-
+	
 }
